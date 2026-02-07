@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For Sehaj</title>
+
+<link href="https://fonts.cdnfonts.com/css/animal-vacation" rel="stylesheet">
+
+<style>
+body{
+    margin:0;
+    min-height:100vh;
+    overflow-y:auto; /* allow scrolling */
+    background: radial-gradient(ellipse at bottom, #0b1d3a 0%, #020111 100%);
+    display:flex;
+    justify-content:center;
+    text-align:center;
+    color:white;
+    font-family:'Animal Vacation', cursive;
+    flex-direction:column; /* so content stacks vertically */
+    align-items:center;
+    padding:20px;
+}
+.message{
+    max-width:850px;
+    padding:40px;
+    font-size:34px;
+    line-height:1.8;
+    font-weight:bold;
+    opacity:0;
+    animation:fadeIn 4s ease forwards;
+    z-index:2;
+}
+@keyframes fadeIn{
+    from{opacity:0; transform:translateY(40px);}
+    to{opacity:1; transform:translateY(0);}
+}
+.star{
+    position:absolute;
+    width:2px;
+    height:2px;
+    background:white;
+    border-radius:50%;
+    animation:twinkle 2s infinite ease-in-out;
+}
+@keyframes twinkle{
+    0%{opacity:0.2;}
+    50%{opacity:1;}
+    100%{opacity:0.2;}
+}
+#tap{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.65);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:26px;
+    letter-spacing:2px;
+    cursor:pointer;
+    z-index:5;
+}
+
+/* Next Button */
+#nextBtn {
+    margin-top: 30px;
+    padding: 14px 30px;
+    font-size: 20px;
+    background: black;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div id="tap">tap anywhere to play the song</div>
+
+<div class="message" id="messageBox">
+And as harkirat sangha said :<br>
+Saria ta middle class jihiya fantasiyan.<br><br>
+I really dig this way of looking at things. I've got a ton of dreams, and I'm always shooting for the stars, knowing that even if I don't hit the absolute top, I'll still land somewhere pretty awesome. It's just a matter of time until I ace the NEET exam and become a doctor. I'm not one to drag my feet, you know? Even my folks have said they're not going to wait until I'm 30. So, naturally, as soon as I start raking in some serious cash, I'll be considered prime marriage material.<br><br>
+I'm all about setting big goals and then just going for it. There's no point in holding back when you know what you want. And for me, that's becoming a doctor and making a real difference. It's not just about the title; it's about the impact I can have. Plus, let's be real, a good income doesn't hurt when it comes to life's next big steps.<br><br>
+It's kind of cool how everything ties together. My drive to succeed professionally also lines up with personal milestones. It's like, one thing leads to another, and before you know it, you're living the life you've always imagined. And honestly, that's a pretty sweet feeling.<br><br>
+So yeah, I'm just out here, doing my thing, working towards those big wins. And I'm confident that with a little time and a lot of effort, everything's going to fall right into place. It's not just hope; it's a plan, and I'm sticking to it.
+<br>
+<button id="nextBtn">Next</button>
+</div>
+
+<audio id="music" preload="auto">
+  <source src="song.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+// create stars
+for(let i=0;i<140;i++){
+    let star=document.createElement("div");
+    star.className="star";
+    star.style.left=Math.random()*100+"vw";
+    star.style.top=Math.random()*100+"vh";
+    star.style.animationDelay=Math.random()*3+"s";
+    document.body.appendChild(star);
+}
+
+// tap to play music with fade in
+document.getElementById("tap").onclick = function() {
+    this.style.display="none";
+    const music = document.getElementById("music");
+    const messageBox = document.getElementById("messageBox");
+    messageBox.style.opacity = 1;
+    music.volume = 0;
+    music.play();
+
+    let vol = 0;
+    const fadeIn = setInterval(()=>{
+        if(vol < 0.7){
+            vol += 0.01;
+            music.volume = vol;
+        } else {
+            clearInterval(fadeIn);
+        }
+    }, 100);
+
+    // optional fade out after 5 min
+    setTimeout(()=>{
+        const fadeOut = setInterval(()=>{
+            if(vol > 0){
+                vol -= 0.01;
+                music.volume = vol;
+            } else {
+                clearInterval(fadeOut);
+                music.pause();
+            }
+        }, 100);
+    }, 5*60*1000);
+}
+
+// Next button
+document.getElementById("nextBtn").onclick = () => {
+    window.location.href = "thankyou.html";
+}
+</script>
+
+</body>
+</html>

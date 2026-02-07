@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>For Sehaj 🎂</title>
+<style>
+  body { margin:0; font-family:'Segoe UI',system-ui,sans-serif; background:linear-gradient(180deg,#ffd6e8,#ffeef6); color:#4a2c3a; overflow-x:hidden; }
+  .center { display:flex; align-items:center; justify-content:center; text-align:center; }
+  .page { min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:20px; }
+  #page2 { display:none; }
+  .btn { background:#ff7fb3; border:none; padding:14px 24px; border-radius:30px; color:white; font-size:18px; cursor:pointer; box-shadow:0 8px 18px rgba(0,0,0,.15); margin-top:18px; }
+  h1 { font-size:42px; margin-top:10px; }
+  .letter { max-width:850px; margin:20px auto; background:white; padding:25px; border-radius:18px; box-shadow:0 12px 25px rgba(0,0,0,.12); line-height:1.7; white-space:pre-wrap; }
+  #typed { min-height:320px; }
+  footer { margin:40px 0 60px; text-align:center; color:#7a4b5e; }
+  canvas { position:fixed; inset:0; pointer-events:none; }
+</style>
+</head>
+<body>
+
+<!-- LANDING PAGE -->
+<div id="page1" class="page center">
+  <div>
+    <h2>Someone still remembers you…</h2>
+    <p>Tap below.</p>
+    <button class="btn" id="openLetter">Open the letter</button>
+  </div>
+</div>
+
+<!-- LETTER PAGE -->
+<div id="page2" class="page">
+  <h1 class="center">Happy Birthday Sehaj</h1>
+  <div class="letter" id="letterBox">
+    <div id="typed"></div>
+    <div class="center">
+      <button class="btn" id="afterLetter">Next</button>
+    </div>
+  </div>
+  <footer>—</footer>
+</div>
+
+<canvas id="fireworks"></canvas>
+
+<audio id="music" preload="auto">
+  <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_115b9b6a6b.mp3?filename=romantic-piano-110624.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+// === LETTER CONTENT ===
+const letter = `Hey Sehaj, it's been quite a while since we last spoke. For some reason, you've been on my mind again. I don't know why or how, but you have. If I were granted another chance at life and the opportunity to relive everything, I would seize it. Specifically, I would choose to spend my time, my best time, with you. I understand these words may no longer hold meaning or value, but trust me, life is a circle, and a fundamental quality of life is its capacity for change. I'm unsure if I'll ever send these paragraphs to you, but you mean a great deal to me more than you can imagine.
+Do you remember when we first spoke again on Lohri? I won't lie; when I saw that text, my heart leaped. I thought, "Wow, how did she text me, and why?" I was so overwhelmed that I actually started dancing with my mother's friends. And after that, during our video calls, when your house staff would come in, and you two would engage in a full-fledged conversation, completely forgetting about me. Well, I did get some crazy tea, so that balances out. Pocket has also grown up a lot. He's 5 years old now and a grown up man technically. Unfortunately his gf (the maid who used to love him) left so he had no choice other than be devdas. I wish I brought him that evening. Also that prank call was way over the top like it really surprised me. I was like woah sehaj calling me are you serious? Nuh uh. I was so stunned i thought it was my sister calling from someone else's phone. It was crazy lol. Ik you've been mostly treated as a kid who has everything and people judge you for that. But I'm kind of the few persons who knows (i mean that's what I think) that you don't actually want those. You don't care Abt the money (you do but not the crazy andha paisa i think) you care Abt the money which lets you buy something without thinking a million times. You want the money which lets you have a feast and a get together and a trip every once in a while with your loved ones. You want the money which gives you freedom and not chains to be bound with.
+
+I'm truly sorry, Sehaj. I know I've said this before, but here I am again. I could have handled things differently. I shouldn't have succumbed to my insecurities and negative thoughts. I should have communicated with you. I undervalued some things and overvalued others, and where did that lead me? Absolutely nowhere. The way we live our lives is completely different now our goals, our ambitions, and even our perspectives. There are a million reasons why we should hold back and simply live our lives as they are until death takes one of us, but there are some reasons that completely overshadow all of these.
+We can be that reason. I know I may not be the man of your dreams yet, but I will be the man who helps turn your dreams into a reality. Anyway, if you're reading this, either I'm no longer alive, or I'm simply overflowing with feelings and want to share them with you. Things can change, and as you once told me, "Stop being so good, otherwise I'll fall in love." And if by any chances you're thinking that everyone says this at start and so he is too. He'll change of course at the end and sorry but yes I will. But not in the way world does I mean I'm always a little different ain't i? I'll change in a way which makes you feel safer everytime you say Ily. I'll change in a way where we won't have to worry constantly and die from the insecurities and overthinking. I'll change in a way where I become mature enough to understand you in a glance.
+
+And sorry but if by any chance you're thinking distance is something which would be the problem. It's just a hour drive and ik you have restrictions. But Y.O.U told me this that distances fall back when the people gets closer. Well I would be surprised if you don't laugh while reading this. I mean you should, afterall it's your birthday.
+So, happy birthday sehaj. I hope you make this day as memorable as you.`;
+
+// === OPEN LETTER BUTTON ===
+document.getElementById('openLetter').onclick = () => {
+  document.getElementById('page1').style.display='none';
+  document.getElementById('page2').style.display='flex';
+  document.getElementById('music').play();
+  startFireworks();
+  startHearts();
+  type();
+};
+
+// === TYPING EFFECT ===
+const typed = document.getElementById('typed');
+let i=0;
+function type(){
+  if(i < letter.length){
+    typed.textContent += letter.charAt(i);
+    i++;
+    setTimeout(type,18);
+  }
+}
+
+// === NEXT BUTTON ===
+document.getElementById('afterLetter').onclick = () => {
+  window.location.href = 'song.html';
+};
+
+// === CANVAS SETUP ===
+const canvas = document.getElementById('fireworks');
+const ctx = canvas.getContext('2d');
+function resize(){canvas.width=innerWidth; canvas.height=innerHeight;}
+window.onresize = resize; resize();
+
+let particles = [];
+let hearts = [];
+
+// === FIREWORKS ===
+function startFireworks(){
+  setInterval(()=>{
+    const x=Math.random()*canvas.width;
+    const y=Math.random()*canvas.height/2;
+    for(let i=0;i<30;i++){
+      particles.push({x, y, dx:(Math.random()-0.5)*4, dy:(Math.random()-0.5)*4, life:60});
+    }
+  },800);
+}
+
+// === HEARTS ===
+function startHearts(){
+  setInterval(()=>{
+    const x = Math.random()*canvas.width;
+    const size = 15 + Math.random()*15;
+    hearts.push({
+      x,
+      y: canvas.height + size,
+      size,
+      dx: (Math.random()-0.5)*1,
+      dy: 1 + Math.random()*1.5,
+      color: Math.random()<0.5?'#ff4b7b':'#ffb6c1',
+      life: canvas.height + 50,
+      rotation: Math.random()*Math.PI*2,
+      rotationSpeed: (Math.random()-0.5)*0.05
+    });
+  }, 200);
+}
+
+// === DRAW HEART ===
+function drawHeart(x, y, size, color, rotation){
+  ctx.save();
+  ctx.translate(x, y);
+  ctx.rotate(rotation);
+  ctx.scale(size/20, size/20);
+  ctx.fillStyle = color;
+  ctx.beginPath();
+  ctx.moveTo(0,0);
+  ctx.bezierCurveTo(0,-3,-5,-10,-10,-10);
+  ctx.bezierCurveTo(-20,-10,-20,5,-20,5);
+  ctx.bezierCurveTo(-20,15,0,25,0,35);
+  ctx.bezierCurveTo(0,25,20,15,20,5);
+  ctx.bezierCurveTo(20,5,20,-10,10,-10);
+  ctx.bezierCurveTo(5,-10,0,-3,0,0);
+  ctx.fill();
+  ctx.restore();
+}
+
+// === ANIMATE FIREWORKS + HEARTS ===
+function animate(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+
+  // fireworks
+  particles.forEach(p=>{
+    ctx.fillStyle=`hsl(${Math.random()*360},100%,70%)`;
+    ctx.fillRect(p.x,p.y,3,3);
+    p.x += p.dx;
+    p.y += p.dy;
+    p.life--;
+  });
+  particles = particles.filter(p=>p.life>0);
+
+  // hearts
+  hearts.forEach(h=>{
+    drawHeart(h.x, h.y, h.size, h.color, h.rotation);
+    h.x += h.dx;
+    h.y -= h.dy;
+    h.rotation += h.rotationSpeed;
+    h.life -= h.dy;
+  });
+  hearts = hearts.filter(h=>h.life>0);
+
+  requestAnimationFrame(animate);
+}
+animate();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thank You, Sehaj ❤️</title>
+
+<style>
+body{
+  margin:0;
+  font-family:'Segoe UI',system-ui,sans-serif;
+  background:#ffeef6;
+  color:#4a2c3a;
+  overflow:hidden;
+}
+
+/* FULLSCREEN START OVERLAY */
+#startScreen{
+  position:fixed;
+  inset:0;
+  background:rgba(255,238,246,0.96);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:9999;
+}
+
+#startBtn{
+  padding:20px 40px;
+  font-size:22px;
+  border:none;
+  border-radius:40px;
+  background:#ff7fb3;
+  color:white;
+  cursor:pointer;
+  box-shadow:0 10px 25px rgba(0,0,0,0.25);
+}
+
+/* BIG HEART CENTER */
+#bigHeart{
+  position:fixed;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  font-size:150px;
+  animation:beat 1.2s infinite;
+  pointer-events:none;
+  z-index:1;
+}
+
+@keyframes beat{
+  0%,100%{transform:translate(-50%,-50%) scale(1);}
+  50%{transform:translate(-50%,-50%) scale(1.18);}
+}
+
+/* LETTER BOX */
+#paraBox{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  max-width:850px;
+  background:rgba(255,255,255,0.88);
+  padding:28px;
+  border-radius:18px;
+  box-shadow:0 12px 25px rgba(0,0,0,0.15);
+  line-height:1.7;
+  font-size:18px;
+  z-index:5;
+  display:none;
+}
+
+/* NEXT BUTTON */
+#nextBtn{
+  margin-top:20px;
+  padding:12px 28px;
+  border:none;
+  border-radius:25px;
+  background:black;
+  color:white;
+  font-size:16px;
+  cursor:pointer;
+}
+
+/* FLOATING HEARTS */
+.floatingHeart{
+  position:fixed;
+  bottom:-40px;
+  pointer-events:none;
+  animation:floatUp linear forwards, twinkle 2s infinite alternate;
+}
+
+@keyframes floatUp{
+  from{transform:translateY(0); opacity:1;}
+  to{transform:translateY(-120vh); opacity:0;}
+}
+
+@keyframes twinkle{
+  0%{opacity:0.5;}
+  50%{opacity:1;}
+  100%{opacity:0.5;}
+}
+</style>
+</head>
+
+<body>
+
+<!-- START SCREEN -->
+<div id="startScreen">
+  <button id="startBtn">Tap to Open ❤️</button>
+</div>
+
+<!-- BIG HEART -->
+<div id="bigHeart">❤️</div>
+
+<!-- MESSAGE -->
+<div id="paraBox">
+<p>
+It was June 23rd when you uttered something that didn't resonate with me at the time, but it did when I revisited our conversations. I had questioned whether I would be happy marrying you, as I was in a state of disarray back then. However, upon reflection, I now believe I would be more than happy. I would feel secure and would no longer have to contend for someone who offers me nothing in return. Thank you, Sehaj, for all the memories you've provided and for consistently helping me grow. You've witnessed me through numerous phases, which is quite amusing. If it is God's will and yours, and we do come together, I cannot say if it would be absolutely perfect, but I can promise it would be the best decision we make in our lives. You are beautiful and sweet, and by the time I realized you were the one for me, I began writing this. Happy birthday, Sehaj; I hope you achieve everything you desire in life and everything you've ever dreamed of. I hope you remember me. I still harbor resentment towards both of them for causing you distress.
+<br><br>
+And please bss thank you mat likhna yr dukh hoga boht, thora time dekr jo man mein ho kehna yr. Aur vaise bhi extra classes ki date abhi bhi schedule ho sakti hai •́‿•̀
+</p>
+
+<button id="nextBtn" onclick="location.href='journal.html'">Next →</button>
+</div>
+
+<!-- AUDIO -->
+<audio id="song">
+  <source src="song2.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+const startBtn=document.getElementById("startBtn");
+const startScreen=document.getElementById("startScreen");
+const paraBox=document.getElementById("paraBox");
+const song=document.getElementById("song");
+
+/* FLOATING HEARTS */
+function createHeart(){
+  const heart=document.createElement("div");
+  heart.className="floatingHeart";
+  heart.innerText=Math.random()>0.5?"💖":"💗";
+  heart.style.left=Math.random()*100+"vw";
+  heart.style.fontSize=(16+Math.random()*22)+"px";
+  heart.style.animationDuration=(6+Math.random()*5)+"s";
+  document.body.appendChild(heart);
+  setTimeout(()=>heart.remove(),11000);
+}
+setInterval(createHeart,350);
+
+/* FADE IN AUDIO */
+function fadeIn(audio){
+  audio.currentTime=0;
+  audio.volume=0;
+  audio.play();
+
+  let vol=0;
+  const fade=setInterval(()=>{
+    vol+=0.01;
+    if(vol>=0.25){
+      vol=0.25;
+      clearInterval(fade);
+    }
+    audio.volume=vol;
+  },120);
+}
+
+/* CLICK START */
+startBtn.addEventListener("click",async()=>{
+  startScreen.style.display="none";
+  paraBox.style.display="block";
+
+  try{
+    await song.play(); // unlock mobile audio
+    song.pause();
+  }catch(e){}
+
+  fadeIn(song);
+});
+</script>
+
+</body>
+</html>

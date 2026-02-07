@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>One Last Thing...</title>
+
+<style>
+
+/* Background */
+body{
+    margin:0;
+    min-height:100vh;
+    background:#e9e1d3;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-family: "Courier New", monospace;
+}
+
+/* Paper */
+.paper{
+    width:92%;
+    max-width:900px;
+    background:
+      repeating-linear-gradient(
+        #f8f4ea,
+        #f8f4ea 30px,
+        #e3ddd0 31px
+      );
+    padding:70px 45px 90px 75px;
+    box-shadow:0 25px 70px rgba(0,0,0,0.25);
+    border-radius:8px;
+    position:relative;
+}
+
+/* red notebook margin */
+.paper::before{
+    content:"";
+    position:absolute;
+    top:0;
+    bottom:0;
+    left:55px;
+    width:2px;
+    background:#d47a7a;
+}
+
+/* title */
+.title{
+    font-size:28px;
+    margin-bottom:25px;
+    color:#5a5245;
+}
+
+/* typed text */
+#typedText{
+    white-space:pre-wrap;
+    font-size:20px;
+    line-height:30px;
+    color:#2f2a24;
+    min-height:320px;
+}
+
+/* cursor */
+.cursor{
+    display:inline-block;
+    width:9px;
+    height:22px;
+    background:#2f2a24;
+    margin-left:4px;
+    animation:blink 1s infinite;
+}
+@keyframes blink{
+    50%{opacity:0;}
+}
+
+/* reply button */
+.replyBtn{
+    display:none;
+    margin-top:40px;
+    padding:14px 28px;
+    font-size:18px;
+    border:none;
+    border-radius:25px;
+    background:#111;
+    color:white;
+    cursor:pointer;
+    transition:.25s;
+}
+.replyBtn:hover{
+    background:#333;
+}
+
+/* start overlay */
+#start{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.65);
+    color:white;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:26px;
+    letter-spacing:2px;
+    cursor:pointer;
+    z-index:10;
+    text-align:center;
+    padding:20px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="start">Tap anywhere to read my journal</div>
+
+<div class="paper">
+    <div class="title">Journal Entry</div>
+    <div id="typedText"></div><span class="cursor"></span>
+
+    <button class="replyBtn" id="reply">
+        Reply to me
+    </button>
+</div>
+
+<audio id="music" preload="auto">
+    <source src="song3.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+
+const journalText = `As I have previously mentioned, whenever circumstances in my life begin to deteriorate, you consistently appear as a savior, and situations subsequently improve. Our coincidences and timing are truly remarkable. We both entered and exited relationships almost simultaneously, a phenomenon I still find perplexing. Today, I spoke with you after a considerable period, and it brought me a sense of well-being. My friend sent you some humorous reels, and I anticipated no reaction, yet you responded, which I appreciated. For some reason, our interactions have become quite formal, and that is acceptable. People do change over time, but you have genuinely demonstrated to me how to care for others, even when one may not feel inclined to do so. I have developed certain habits, such as conversing with myself and indirectly expressing personal thoughts to others, though I am unsure why. Therefore, I wish to convey this to you directly, with no secrets involved.
+
+I believe I am deeply in love with you. There may be a thousand individuals who would admire you, praise you, adore you, or even die for you, but I would be the one who would live for you, work for you, and love you.
+
+I know I have asked this many times, but I am also unashamed. So, I am asking again: can you grant me one last chance, a chance that would not cause you to lose anything, but if we were to unite, we would undoubtedly conquer the world.
+
+Our world.`;
+
+
+/* typing */
+let i = 0;
+const typed = document.getElementById("typedText");
+const reply = document.getElementById("reply");
+const music = document.getElementById("music");
+
+function typeWriter(){
+    if(i < journalText.length){
+        typed.textContent += journalText.charAt(i);
+        i++;
+        setTimeout(typeWriter, 26);
+    }else{
+        reply.style.display="inline-block";
+    }
+}
+
+/* START CLICK (fix for phones) */
+document.getElementById("start").addEventListener("click", async () => {
+
+    document.getElementById("start").style.display="none";
+
+    try{
+        music.volume = 0;
+        await music.play();
+
+        /* fade in */
+        let vol = 0;
+        const fade = setInterval(()=>{
+            vol += 0.01;
+            if(vol >= 0.35){
+                vol = 0.35;
+                clearInterval(fade);
+            }
+            music.volume = vol;
+        },120);
+
+    }catch(e){
+        console.log("audio blocked until interaction");
+    }
+
+    typeWriter();
+});
+
+/* WhatsApp reply */
+reply.onclick = function(){
+    window.location.href = "https://wa.me/919015113849";
+};
+
+</script>
+
+</body>
+</html>
